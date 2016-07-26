@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LeapNullModelStoreContainer" CdmEntityContainer="LeapNullEntities">
+    <EntitySetMapping Name="LanguageTables">
+      <EntityTypeMapping TypeName="LeapNullModel.LanguageTable">
+        <MappingFragment StoreEntitySet="LanguageTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLanguageTables">
+      <EntityTypeMapping TypeName="LeapNullModel.UserLanguageTable">
+        <MappingFragment StoreEntitySet="UserLanguageTable">
+          <ScalarProperty Name="UserEmailId" ColumnName="UserEmailId" />
+          <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+          <ScalarProperty Name="ProficiencyLevel" ColumnName="ProficiencyLevel" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="NumOfCalls" ColumnName="NumOfCalls" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserTables">
+      <EntityTypeMapping TypeName="LeapNullModel.UserTable">
+        <MappingFragment StoreEntitySet="UserTable">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
+          <ScalarProperty Name="IsPremium" ColumnName="IsPremium" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+          <ScalarProperty Name="IsBusy" ColumnName="IsBusy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Normal_UserAssign" FunctionName="LeapNullModel.Store.Normal_UserAssign" />
+    <FunctionImportMapping FunctionImportName="sp_AssignTeacher" FunctionName="LeapNullModel.Store.sp_AssignTeacher" />
+    <FunctionImportMapping FunctionImportName="sp_authenticate" FunctionName="LeapNullModel.Store.sp_authenticate" />
+    <FunctionImportMapping FunctionImportName="sp_EndCall" FunctionName="LeapNullModel.Store.sp_EndCall" />
+    <FunctionImportMapping FunctionImportName="sp_SignIn" FunctionName="LeapNullModel.Store.sp_SignIn" />
+    <FunctionImportMapping FunctionImportName="sp_SignOut" FunctionName="LeapNullModel.Store.sp_SignOut" />
+    <FunctionImportMapping FunctionImportName="sp_StartCall" FunctionName="LeapNullModel.Store.sp_StartCall" />
+  </EntityContainerMapping>
+</Mapping>

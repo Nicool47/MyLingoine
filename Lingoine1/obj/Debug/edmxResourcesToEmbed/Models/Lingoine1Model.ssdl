@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeapNullModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="LanguageTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LanguageName" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="UserLanguageTable">
+    <Key>
+      <PropertyRef Name="UserEmailId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="UserEmailId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LanguageId" Type="int" Nullable="false" />
+    <Property Name="ProficiencyLevel" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="float" Nullable="false" />
+    <Property Name="NumOfCalls" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Country" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SkypeId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsPremium" Type="bit" Nullable="false" />
+    <Property Name="Gender" Type="bit" Nullable="false" />
+    <Property Name="IsOnline" Type="bit" Nullable="false" />
+    <Property Name="IsBusy" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__UserLangu__Langu__4F7CD00D">
+    <End Role="LanguageTable" Type="Self.LanguageTable" Multiplicity="1" />
+    <End Role="UserLanguageTable" Type="Self.UserLanguageTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LanguageTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLanguageTable">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserLangu__UserE__4E88ABD4">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+    <End Role="UserLanguageTable" Type="Self.UserLanguageTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="UserLanguageTable">
+        <PropertyRef Name="UserEmailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="Normal_UserAssign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LearnerEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LName" Type="varchar" Mode="In" />
+    <Parameter Name="NTeacherSkype" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_AssignTeacher" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LearnerEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LName" Type="varchar" Mode="In" />
+    <Parameter Name="TeacherSkype" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_authenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UEmail" Type="varchar" Mode="In" />
+    <Parameter Name="UPassword" Type="varchar" Mode="In" />
+    <Parameter Name="result" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="sp_EndCall" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TeacherEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LearnerEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LName" Type="varchar" Mode="In" />
+    <Parameter Name="URating" Type="float" Mode="In" />
+  </Function>
+  <Function Name="sp_SignIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UEmail" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_SignOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UEmail" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_StartCall" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TeacherEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LearnerEmail" Type="varchar" Mode="In" />
+    <Parameter Name="LanguageName" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="LeapNullModelStoreContainer">
+    <EntitySet Name="LanguageTable" EntityType="Self.LanguageTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLanguageTable" EntityType="Self.UserLanguageTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__UserLangu__Langu__4F7CD00D" Association="Self.FK__UserLangu__Langu__4F7CD00D">
+      <End Role="LanguageTable" EntitySet="LanguageTable" />
+      <End Role="UserLanguageTable" EntitySet="UserLanguageTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserLangu__UserE__4E88ABD4" Association="Self.FK__UserLangu__UserE__4E88ABD4">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="UserLanguageTable" EntitySet="UserLanguageTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

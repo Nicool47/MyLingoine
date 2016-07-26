@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeapNullModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="LanguageTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LanguageName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="UserLanguageTables" Relationship="Self.FK__UserLangu__Langu__4F7CD00D" FromRole="LanguageTable" ToRole="UserLanguageTable" />
+  </EntityType>
+  <EntityType Name="UserLanguageTable">
+    <Key>
+      <PropertyRef Name="UserEmailId" />
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="UserEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LanguageId" Type="Int32" Nullable="false" />
+    <Property Name="ProficiencyLevel" Type="Int32" Nullable="false" />
+    <Property Name="Rating" Type="Double" Nullable="false" />
+    <Property Name="NumOfCalls" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="LanguageTable" Relationship="Self.FK__UserLangu__Langu__4F7CD00D" FromRole="UserLanguageTable" ToRole="LanguageTable" />
+    <NavigationProperty Name="UserTable" Relationship="Self.FK__UserLangu__UserE__4E88ABD4" FromRole="UserLanguageTable" ToRole="UserTable" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="State" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SkypeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsPremium" Type="Boolean" Nullable="false" />
+    <Property Name="Gender" Type="Boolean" Nullable="false" />
+    <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+    <Property Name="IsBusy" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="UserLanguageTables" Relationship="Self.FK__UserLangu__UserE__4E88ABD4" FromRole="UserTable" ToRole="UserLanguageTable" />
+  </EntityType>
+  <Association Name="FK__UserLangu__Langu__4F7CD00D">
+    <End Role="LanguageTable" Type="Self.LanguageTable" Multiplicity="1" />
+    <End Role="UserLanguageTable" Type="Self.UserLanguageTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LanguageTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLanguageTable">
+        <PropertyRef Name="LanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserLangu__UserE__4E88ABD4">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+    <End Role="UserLanguageTable" Type="Self.UserLanguageTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="UserLanguageTable">
+        <PropertyRef Name="UserEmailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LeapNullEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="LanguageTables" EntityType="Self.LanguageTable" />
+    <EntitySet Name="UserLanguageTables" EntityType="Self.UserLanguageTable" />
+    <EntitySet Name="UserTables" EntityType="Self.UserTable" />
+    <AssociationSet Name="FK__UserLangu__Langu__4F7CD00D" Association="Self.FK__UserLangu__Langu__4F7CD00D">
+      <End Role="LanguageTable" EntitySet="LanguageTables" />
+      <End Role="UserLanguageTable" EntitySet="UserLanguageTables" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserLangu__UserE__4E88ABD4" Association="Self.FK__UserLangu__UserE__4E88ABD4">
+      <End Role="UserTable" EntitySet="UserTables" />
+      <End Role="UserLanguageTable" EntitySet="UserLanguageTables" />
+    </AssociationSet>
+    <FunctionImport Name="Normal_UserAssign">
+      <Parameter Name="LearnerEmail" Mode="In" Type="String" />
+      <Parameter Name="LName" Mode="In" Type="String" />
+      <Parameter Name="NTeacherSkype" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_AssignTeacher">
+      <Parameter Name="LearnerEmail" Mode="In" Type="String" />
+      <Parameter Name="LName" Mode="In" Type="String" />
+      <Parameter Name="TeacherSkype" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_authenticate">
+      <Parameter Name="UEmail" Mode="In" Type="String" />
+      <Parameter Name="UPassword" Mode="In" Type="String" />
+      <Parameter Name="result" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EndCall">
+      <Parameter Name="TeacherEmail" Mode="In" Type="String" />
+      <Parameter Name="LearnerEmail" Mode="In" Type="String" />
+      <Parameter Name="LName" Mode="In" Type="String" />
+      <Parameter Name="URating" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="sp_SignIn">
+      <Parameter Name="UEmail" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_SignOut">
+      <Parameter Name="UEmail" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StartCall">
+      <Parameter Name="TeacherEmail" Mode="In" Type="String" />
+      <Parameter Name="LearnerEmail" Mode="In" Type="String" />
+      <Parameter Name="LanguageName" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>
